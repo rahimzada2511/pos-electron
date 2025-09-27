@@ -1,0 +1,46 @@
+{
+  "name": "pos-electron",
+  "version": "1.0.0",
+  "description": "POS Inventory — Electron + React (offline, SQLite, backups)",
+  "main": "electron.main.js",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "start": "concurrently \"cross-env BROWSER=none npm:react-start\" \"wait-on http://localhost:3000 && electron .\"",
+    "react-start": "react-scripts start",
+    "build-renderer": "react-scripts build",
+    "build": "npm run build-renderer && electron-builder --win",
+    "dist:all": "npm run build-renderer && electron-builder --win --x64 --ia32 --arm64"
+  },
+  "build": {
+    "productName": "POS Inventory",
+    "appId": "com.example.posinventory",
+    "files": [
+      "electron.main.js",
+      "electron.preload.js",
+      "dist/**/*",
+      "src/**/*",
+      "public/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    }
+  },
+  "dependencies": {
+    "better-sqlite3": "^8.0.0",
+    "electron-is-dev": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.0.0",
+    "concurrently": "^8.0.0",
+    "cross-env": "^7.0.0",
+    "wait-on": "^7.0.0",
+    "react-scripts": "5.0.1"
+  }
+}
